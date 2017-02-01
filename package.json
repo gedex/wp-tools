@@ -12,6 +12,7 @@
     "cover": "cross-env BABEL_ENV=commonjs istanbul cover _mocha -- --compilers js:babel-register --recursive",
     "lint": "eslint src test",
     "build": "npm run clean && cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "pre-publish": "npm run clean && npm run lint && npm run test && npm run build",
     "preversion": "npm run clean && npm run lint && npm test",
     "version": "npm run build && git add -A .",
     "postversion": "git push && git push --tags"
