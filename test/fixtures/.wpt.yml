@@ -1,0 +1,17 @@
+type: plugin
+files:
+    src:
+        - '*.php'
+        - '!node_modules'
+        - '!vendor'
+    main: plugin.php
+    assets:
+        - assets/*.png
+        - assets/*.svg
+gh:
+    repo: gedex/plugin
+    username: gedex
+wporg:
+    slug: test
+    username: akeda
+    buildPath: build

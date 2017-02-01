@@ -1,0 +1,16 @@
+type: theme
+files:
+    src:
+        - '**/*.php'
+        - '!.wpt.yml'
+    main: style.css
+    assets:
+        - assets/*.png
+        - assets/*.svg
+gh:
+    repo: gedex/test
+    username: gedex
+wporg:
+    slug: example
+    username: akeda
+    buildPath: build

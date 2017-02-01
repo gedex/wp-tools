@@ -1,0 +1,13 @@
+type: plugin
+files:
+    src:
+        - "**/*.php"
+        - "!.wpt.yml"
+    main: example.php
+gh:
+    username: gedex
+    repo: test
+wporg:
+    slug: example
+    username: akeda
+    buildPath: build
