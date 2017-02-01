@@ -1,6 +1,6 @@
 {
   "name": "wp-tools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tools for your WordPress plugin or theme project",
   "bin": {
     "wpt": "bin/wpt"
