@@ -61,7 +61,7 @@ $ wpt init -h
 
 ## Project Config (`.wpt.yml`)
 
-Some commands in wpt expects config file to be present in your project directory.
+Some commands in wpt expect config file to be present in your project directory.
 To add / modify config file in a project:
 
 ```
