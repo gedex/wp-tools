@@ -97,7 +97,7 @@ function gitPush( params ) {
 	git.tag( params.version );
 
 	log.info( 'push tag to remote origin' );
-	git.pushTag( params.version );
+	git.push( params.version );
 }
 
 function afterRelease( params ) {

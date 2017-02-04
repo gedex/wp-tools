@@ -1,6 +1,12 @@
 language: node_js
 node_js:
   - "6"
+before_script:
+  - git --version
+  - svn --version
+  - php --version
+  - git config --global user.name "John Doe"
+  - git config --global user.email "john.doe@example.com"
 script:
   - npm run lint
   - npm run test

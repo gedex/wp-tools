@@ -56,21 +56,16 @@ function checkUncommittedChanges() {
 	}
 }
 
-function push( branch ) {
-	const args = [ 'push', 'origin', branch ];
-	exec.git( ...args );
-}
-
-function pushTag( tagName ) {
-	const args = [ 'push', 'origin', tagName ];
+function push( ref ) {
+	const args = [ 'push', 'origin', ref ];
 	exec.git( ...args );
 }
 
 export default {
+	tagExists,
 	tag,
 	getCurrentBranch,
 	checkout,
 	checkUncommittedChanges,
-	push,
-	pushTag
+	push
 };
