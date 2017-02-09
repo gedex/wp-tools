@@ -41,6 +41,7 @@
     "parse-github-repo-url": "^1.3.0",
     "promzard": "^0.3.0",
     "randomstring": "^1.1.5",
+    "read": "^1.0.7",
     "read-chunk": "^2.0.0",
     "request": "^2.79.0",
     "rimraf": "^2.5.4",
