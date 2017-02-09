@@ -27,7 +27,7 @@ export default {
 		: prompt( 'GitHub repo', toStr( defaults.gh.repo ), toStr ),
 
 	ghUser: function( cb ) {
-		const gh = ghParse( this.exports.default.ghRepo );
+		const gh = ghParse( this.exports.default.ghRepo || '' );
 		const d = this.defaults.gh.username || Array.isArray( gh ) ? gh[ 0 ] : undefined;
 		const r = this.exports.useDefaults
 			? toStr( d )
