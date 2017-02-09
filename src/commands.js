@@ -7,6 +7,7 @@ import info from './commands/info';
 import init from './commands/init';
 import releaseGh from './commands/release-gh';
 import releaseWpOrg from './commands/release-wporg';
+import previewGh from './commands/preview-gh';
 import validatei18n from './commands/validate-i18n';
 import validateReadmeTxt from './commands/validate-readme-txt';
 
@@ -98,6 +99,16 @@ export default {
 		],
 		action: ( args, config ) => {
 			releaseWpOrg( args, config );
+		}
+	},
+	'preview:gh': {
+		description: 'Preview GitHub README.md.',
+		longDescription: [
+			'This will creates temporary HTML file in currenct directory and',
+			'  open it on browser. The HTML file will be removed after the preview.'
+		].join( '\n' ),
+		action: ( args, config ) => {
+			previewGh( args, config );
 		}
 	},
 	'validate:i18n': {

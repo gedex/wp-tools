@@ -23,8 +23,8 @@ function parse( input ) {
 	};
 }
 
-function getContent() {
-	const candidates = [
+function getContent( candidates ) {
+	candidates = candidates || [
 		'readme.txt',
 		'README.txt'
 	];
@@ -40,6 +40,31 @@ function getContent() {
 			content = fs.readFileSync( f, 'utf8' );
 		}
 	} );
+
+	return content;
+}
+
+function mustGetContent( candidates ) {
+	candidates = candidates || [
+		'readme.txt',
+		'README.txt'
+	];
+
+	let readmeFile;
+	candidates.forEach( r => {
+		if ( ! readmeFile && fs.existsSync( r ) ) {
+			readmeFile = r;
+		}
+	} );
+
+	if ( ! readmeFile ) {
+		throw new Error( `Missing file ${ candidates[ 0 ] }.` );
+	}
+
+	const content = fs.readFileSync( readmeFile, 'utf8' );
+	if ( ! content ) {
+		throw new Error( `Empty content on ${ readmeFile }` );
+	}
 
 	return content;
 }
@@ -190,6 +215,7 @@ function arrlen( arr ) {
 export default {
 	parse,
 	getContent,
+	mustGetContent,
 	getChangelog,
 	checkVersion
 };
