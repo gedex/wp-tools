@@ -1,6 +1,7 @@
 wp-tools (wpt)
 ==============
 
+[![npm version](https://img.shields.io/npm/v/wp-tools.svg?style=flat)](https://www.npmjs.com/package/wp-tools)
 [![build status](https://api.travis-ci.org/gedex/wp-tools.svg)](http://travis-ci.org/gedex/wp-tools)
 [![dependency status](https://david-dm.org/gedex/wp-tools.svg)](https://david-dm.org/gedex/wp-tools)
 
