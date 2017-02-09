@@ -60,7 +60,6 @@
     "cross-env": "^3.0.0",
     "eslint": "^3.11.1",
     "eslint-config-wpcalypso": "^0.6.0",
-    "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-wpcalypso": "^3.0.2",
     "istanbul": "^1.0.0-alpha",
     "mocha": "^3.2.0",
