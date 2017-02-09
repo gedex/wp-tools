@@ -2,6 +2,7 @@ wp-tools (wpt)
 ==============
 
 [![build status](https://api.travis-ci.org/gedex/wp-tools.svg)](http://travis-ci.org/gedex/wp-tools)
+[![dependency status](https://david-dm.org/gedex/wp-tools.svg)](https://david-dm.org/gedex/wp-tools)
 
 wp-tools (wpt) is a command line interface to reduce boring tasks when
 working on WordPress plugin / theme project that will be published to wp.org.
