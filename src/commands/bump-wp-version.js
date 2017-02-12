@@ -246,6 +246,6 @@ function afterBump( params ) {
 		git.checkout( params.originalBranch );
 		log.info( 'Pop saved changes.' );
 		git.unstash();
-		fs.removeSync( params.buildPath );
+		fs.removeSync( resolve( process.cwd(), params.buildPath ) );
 	} catch ( e ) {}
 }
