@@ -4,10 +4,13 @@
 import { assert } from 'chai';
 import fs from 'fs-extra';
 import { resolve } from 'path';
+import sinon from 'sinon';
+import temp from 'temp';
 
 /**
  * Internal dependencies
  */
+import logger from '../../src/utils/logger';
 import readme from '../../src/utils/readme';
 
 describe( 'utils: readme', () => {
@@ -20,6 +23,25 @@ describe( 'utils: readme', () => {
 	const missingPluginName = getReadme( 'readme-missing-plugin-name.txt' );
 	const missingMeta = getReadme( 'readme-missing-meta.txt' );
 	const missingSection = getReadme( 'readme-missing-section.txt' );
+
+	let tmp, cwd, sandbox;
+
+	beforeEach( () => {
+		cwd = process.cwd();
+		tmp = temp.mkdirSync( 'wpt-test-util-readme' );
+		fs.copySync( resolve( fixtureDir, 'plugin' ), tmp );
+
+		process.chdir( tmp );
+
+		sandbox = sinon.sandbox.create();
+		sandbox.stub( logger, 'warning' );
+	} );
+
+	afterEach( () => {
+		sandbox.restore();
+		process.chdir( cwd );
+		fs.removeSync( tmp );
+	} );
 
 	describe( 'parse', () => {
 		it( 'returns title on valid readme.txt', () => {
@@ -183,19 +205,122 @@ describe( 'utils: readme', () => {
 	} );
 
 	describe( 'getContent', () => {
-		it( 'TODO', () => {
-			assert.ok( true );
+		it( 'should returns content of readme.txt', () => {
+			const src = resolve( fixtureDir, 'readme-valid.txt' );
+			const dst = resolve( tmp, 'readme.txt' );
+			fs.copySync( src, dst );
+
+			assert.equal( readme.getContent(), validReadme );
+		} );
+
+		it( 'should returns content of README.txt', () => {
+			const src = resolve( fixtureDir, 'readme-valid.txt' );
+			const dst = resolve( tmp, 'README.txt' );
+			fs.copySync( src, dst );
+
+			assert.equal( readme.getContent(), validReadme );
+		} );
+
+		it( 'should throws error if no readme.txt or README.txt file', () => {
+			assert.throws( readme.getContent, Error, 'Missing file readme.txt.' );
+		} );
+	} );
+
+	describe( 'updateContent', () => {
+		it( 'should update content of readme.txt', () => {
+			const src = resolve( fixtureDir, 'readme-valid.txt' );
+			const dst = resolve( tmp, 'readme.txt' );
+			fs.copySync( src, dst );
+
+			readme.updateContent( missingMeta );
+			assert.equal( getReadme( dst ), missingMeta );
+		} );
+
+		it( 'should update content of README.txt', () => {
+			const src = resolve( fixtureDir, 'readme-valid.txt' );
+			const dst = resolve( tmp, 'README.txt' );
+			fs.copySync( src, dst );
+
+			readme.updateContent( missingMeta );
+			assert.equal( getReadme( dst ), missingMeta );
 		} );
 	} );
 
 	describe( 'getChangelog', () => {
-		it( 'TODO', () => {
-			assert.ok( true );
+		it( 'should return latest changelog in readme.txt by specifying latest version number', () => {
+			const src = resolve( fixtureDir, 'readme-valid.txt' );
+			const dst = resolve( tmp, 'readme.txt' );
+			fs.copySync( src, dst );
+
+			const expected = [
+				'* A change since the previous version.',
+				'* Another change.',
+			].join( '\n' );
+			assert.equal( readme.getChangelog( '1.0' ), expected );
+		} );
+
+		it( 'should throw error if specified version is not the latest version', () => {
+			const src = resolve( fixtureDir, 'readme-valid.txt' );
+			const dst = resolve( tmp, 'readme.txt' );
+			fs.copySync( src, dst );
+
+			const fn = () => {
+				readme.getChangelog( '0.5' );
+			};
+			assert.throws( fn, Error, /latest changelog in readme\.txt is not 0\.5\./ );
 		} );
 	} );
 
-	describe( 'getVersion', () => {
-		it( 'TODO', () => {
+	describe( 'checkVersion', () => {
+		it( 'should not throw error if stable tag in readme.txt matches with version in main file header', () => {
+			const file = resolve( tmp, 'readme.txt' );
+			const content = [
+				'=== Plugin Name ===',
+				'Stable tag: 0.1.0',
+				'',
+				'Here is a short description of the plugin.',
+				'',
+				'== Description ==',
+				'',
+				'This is the long description.',
+			].join( '\n' );
+			const fn = () => {
+				readme.checkVersion( '0.1.0' );
+			};
+
+			fs.outputFileSync( file, content, 'utf8' );
+
+			assert.doesNotThrow( fn, Error );
+		} );
+
+		it( 'should log a warning if stable tag is trunk', () => {
+			const file = resolve( tmp, 'readme.txt' );
+			const content = [
+				'=== Plugin Name ===',
+				'Stable tag: trunk',
+				'',
+				'Here is a short description of the plugin.',
+				'',
+				'== Description ==',
+				'',
+				'This is the long description.',
+			].join( '\n' );
+			const fn = () => {
+				readme.checkVersion( '0.1.0' );
+			};
+
+			fs.outputFileSync( file, content, 'utf8' );
+
+			assert.doesNotThrow( fn, Error );
+
+			assert.isTrue(
+				logger.warning.calledWith(
+					'Stabe tag in readme.txt is "trunk" instead of 0.1.0.'
+				)
+			);
+		} );
+
+		it( 'should throw error if version in main file does not match with stable tag in readme.txt', () => {
 			assert.ok( true );
 		} );
 	} );
