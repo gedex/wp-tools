@@ -190,5 +190,29 @@ describe( 'utils: fileHeader', function() {
 			};
 			assert.deepEqual( actual, expected );
 		} );
+
+		it( 'should return extra headers if passed and found in the main file', () => {
+			const extraHeaders = {
+				'Requires at least': 'Requires at least',
+				'Tested up to': 'Tested up to'
+			};
+			const actual = fh.getFileData( pluginFile, 'plugin', extraHeaders );
+			const expected = {
+				Name: 'ExamplePlugin',
+				PluginURI: 'https://example.com',
+				Version: '0.1.0',
+				Description: 'Example plugin for wpt tests.',
+				Author: 'WPT',
+				AuthorURI: 'https://example.com',
+				'Requires at least': '4.4',
+				'Tested up to': '4.7',
+				TextDomain: 'example',
+				DomainPath: '/languages/',
+				Network: '',
+				License: 'GPL v2 or later',
+				LicenseURI: 'https://www.gnu.org/licenses/gpl-2.0.html'
+			};
+			assert.deepEqual( actual, expected );
+		} );
 	} );
 } );
