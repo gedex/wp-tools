@@ -27,17 +27,12 @@ export default function( args, config ) {
 			action( params );
 		} );
 
-		log.success( 'WP.org release is created: ' + getSvnUrl( params.slug, params.version ) );
+		log.success( 'WP.org release is created: ' + svn.getWpOrgSvn( params.slug, params.version ) );
 	} catch ( e ) {
 		log.error( e.toString() );
 	}
 
 	afterRelease( params );
-}
-
-function getSvnUrl( slug, tag ) {
-	const url = `https://plugins.svn.wordpress.org/${ slug }`;
-	return tag ? url + '/' + tag : url;
 }
 
 function getParams( args, config ) {
@@ -135,7 +130,7 @@ function cleanBuild( params ) {
 }
 
 function svnCheckout( params ) {
-	svn.checkout( getSvnUrl( params.slug ), rootBuild( params ) );
+	svn.checkout( svn.getWpOrgSvn( params.slug ), rootBuild( params ) );
 	svn.update( trunkDir( params ), '--set-depth', 'infinity' );
 	svn.update( assetsDir( params ), '--set-depth', 'infinity' );
 }

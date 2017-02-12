@@ -25,17 +25,20 @@ function setupCommands( wptConfig ) {
 	for ( const k of Object.keys( commands ) ) {
 		const v = commands[ k ];
 		const cmd = cli.command( k );
+		const options = v.options || [];
 
 		cmd.description( v.description );
 
-		if ( 'undefined' !== typeof v.options ) {
-			v.options.forEach( ( opt ) => {
-				cmd.option( ...opt );
-			} );
+		options.forEach( ( opt ) => {
+			cmd.option( ...opt );
+		} );
+
+		if ( v.arguments ) {
+			cmd.arguments( v.arguments );
 		}
 
-		cmd.action( ( args ) => {
-			v.action( args, wptConfig || {} );
+		cmd.action( ( ...args ) => {
+			v.action( ...args, wptConfig || {} );
 		} );
 
 		cmd.longDesc = longDescFn( k );

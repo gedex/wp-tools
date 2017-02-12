@@ -62,6 +62,11 @@ function statusLinesMatch( path, re ) {
 	return items;
 }
 
+function getWpOrgSvn( slug, tag ) {
+	const url = `https://plugins.svn.wordpress.org/${ slug }`;
+	return tag ? url + '/' + tag : url;
+}
+
 export default {
 	checkout,
 	update,
@@ -71,5 +76,6 @@ export default {
 	status,
 	commit,
 	missingItems,
-	untrackedItems
+	untrackedItems,
+	getWpOrgSvn
 };

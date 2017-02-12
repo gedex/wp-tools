@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs-extra';
 
 /**
  * Internal dependencies
@@ -23,28 +22,7 @@ function parse( input ) {
 	};
 }
 
-function getContent( candidates ) {
-	candidates = candidates || [
-		'readme.txt',
-		'README.txt'
-	];
-
-	let content = '';
-	candidates.forEach( c => {
-		if ( content ) {
-			return content;
-		}
-
-		const f = path.resolve( process.cwd(), c );
-		if ( fs.existsSync( f ) ) {
-			content = fs.readFileSync( f, 'utf8' );
-		}
-	} );
-
-	return content;
-}
-
-function mustGetContent( candidates ) {
+function getPath( candidates ) {
 	candidates = candidates || [
 		'readme.txt',
 		'README.txt'
@@ -61,12 +39,22 @@ function mustGetContent( candidates ) {
 		throw new Error( `Missing file ${ candidates[ 0 ] }.` );
 	}
 
+	return readmeFile;
+}
+
+function getContent( candidates ) {
+	const readmeFile = getPath( candidates );
 	const content = fs.readFileSync( readmeFile, 'utf8' );
 	if ( ! content ) {
 		throw new Error( `Empty content on ${ readmeFile }` );
 	}
 
 	return content;
+}
+
+function updateContent( content, candidates ) {
+	const readmeFile = getPath( candidates );
+	fs.outputFileSync( readmeFile, content, 'utf8' );
 }
 
 function getChangelog( version ) {
@@ -215,7 +203,7 @@ function arrlen( arr ) {
 export default {
 	parse,
 	getContent,
-	mustGetContent,
+	updateContent,
 	getChangelog,
 	checkVersion
 };

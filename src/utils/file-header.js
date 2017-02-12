@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { _extend as extend } from 'util';
 import fs from 'fs';
 import path from 'path';
 import readChunk from 'read-chunk';
@@ -41,7 +40,7 @@ const headers = {
 	theme: themeHeaders
 };
 
-function getFileData( filepath, context = 'plugin' ) {
+function getFileData( filepath, context = 'plugin', extraHeaders ) {
 	if ( ! filepath ) {
 		throw new Error( 'Missing plugin main file. Specify it via --file or define `files.main` in .wpt.yml.' );
 	}
@@ -57,12 +56,14 @@ function getFileData( filepath, context = 'plugin' ) {
 	}
 
 	const buf = readChunk.sync( filepath, 0, 8192 );
-	return headerData( buf, context );
+	return headerData( buf, context, extraHeaders );
 }
 
-function headerData( buf, context ) {
+function headerData( buf, context, extraHeaders ) {
 	const str = buf.toString( 'utf8' ).replace( /\r/, '\n' );
-	const header = headers[ context ] ? extend( {}, headers[ context ] ) : extend( {}, pluginHeaders );
+	const header = headers[ context ]
+		? Object.assign( {}, headers[ context ], extraHeaders || {} )
+		: Object.assign( {}, pluginHeaders, extraHeaders || {} );
 
 	for ( const k in header ) {
 		const matches = str.match( new RegExp( `^[ \t/*#@]*${ header[ k ] }:(.*)$`, 'mi' ) ) || [];

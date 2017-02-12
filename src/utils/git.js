@@ -61,11 +61,35 @@ function push( ref ) {
 	exec.git( ...args );
 }
 
+function stash() {
+	const args = [ 'stash', '--include-untracked', '--quiet' ];
+	exec.git( ...args );
+}
+
+function unstash() {
+	const args = [ 'stash', 'pop', '--quiet' ];
+	exec.git( ...args );
+}
+
+function add() {
+	const args = [ 'add', '--all', '--ignore-errors' ];
+	exec.git( ...args );
+}
+
+function commit( msg ) {
+	const args = [ 'commit', '-m', `${ msg }`, '--quiet' ];
+	exec.git( ...args );
+}
+
 export default {
 	tagExists,
 	tag,
 	getCurrentBranch,
 	checkout,
 	checkUncommittedChanges,
-	push
+	push,
+	stash,
+	unstash,
+	commit,
+	add
 };

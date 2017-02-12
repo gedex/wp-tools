@@ -1,6 +1,7 @@
 /**
  * Internal dependencies
  */
+import bumpWpVersion from './commands/bump-wp-version';
 import generatePot from './commands/generate-pot';
 import generateReadmeMd from './commands/generate-readme-md';
 import info from './commands/info';
@@ -17,6 +18,34 @@ const projectTypeOption = [ '-t, --type <type>', 'Project type (plugin or theme)
 const quietOption = [ '-q, --quiet', 'Disable all output.' ];
 
 export default {
+	'bump:wp-version': {
+		description: 'Bump WP version in readme.txt',
+		longDescription: [
+			'This command will do the following actions:',
+			'',
+			'  1) Save current changes in current branch.',
+			'  2) Checkout to the branch specified either in `gh.branch` of',
+			'     .wpt.yml, `-b` or `--branch` arg, or `master` if the previous',
+			'     two are not set.',
+			'  3) Updates `Requires at least` with <from> and `Tested up to`',
+			'     with <to> in readme.txt and plugin / theme main file.',
+			'  4) If `-R` or `--no-release` is specified stop. Leave changes',
+			'     unstaged, switch to original branch, and pop saved changes.',
+			'     Otherwise proceed following actions.',
+			'  5) Commit the changes.',
+			'  6) Push to remote origin',
+			'  7) Release the change to wp.org trunk. No tagging.',
+			'  8) Switch to original branch and pop saved changes.'
+		].join( '\n' ),
+		options: [
+			branchOption,
+			[ '-R, --no-release', 'No release. Changes are not staged.' ]
+		],
+		arguments: '<from> <to>',
+		action: ( from, to, args, config ) => {
+			bumpWpVersion( from, to, args, config );
+		}
+	},
 	'generate:pot': {
 		description: 'Generate POT.',
 		options: [
