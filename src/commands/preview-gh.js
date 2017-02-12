@@ -16,7 +16,7 @@ import readme from '../utils/readme';
 
 export default () => {
 	try {
-		runPreview( readme.mustGetContent( [ 'README.md', 'readme.md' ] ) );
+		runPreview( readme.getContent( [ 'README.md', 'readme.md' ] ) );
 	} catch ( e ) {
 		log.error( e.toString() );
 	}
