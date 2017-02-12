@@ -117,21 +117,33 @@ function getReleaseActions() {
 }
 
 function switchGitBranch( params ) {
+	log.info( `Switch to branch ${ params.branch }.` );
 	git.checkout( params.branch );
 }
 
 function checkBeforeCopy( params ) {
+	log.info( 'Check uncommitted changes.' );
 	git.checkUncommittedChanges();
+	log.success( 'No unstagaed changes.' );
+
+	log.info( 'Check version in main file and readme.txt.' );
 	readme.checkVersion( params.version );
+	log.success( 'Version matches.' );
 }
 
 function cleanBuild( params ) {
+	log.info( `Clean build path at ${ params.buildPath }` );
 	rimraf.sync( params.buildPath );
 }
 
 function svnCheckout( params ) {
+	log.info( `Checkout ${ svn.getWpOrgSvn( params.slug ) } to ${ rootBuild( params ) }.` );
 	svn.checkout( svn.getWpOrgSvn( params.slug ), rootBuild( params ) );
+
+	log.info( `Updating trunk at ${ trunkDir( params ) }.` );
 	svn.update( trunkDir( params ), '--set-depth', 'infinity' );
+
+	log.info( `Updating assets at ${ assetsDir( params ) }.` );
 	svn.update( assetsDir( params ), '--set-depth', 'infinity' );
 }
 
@@ -168,11 +180,13 @@ function copyFiles( params ) {
 	const copyToAssets = copyFileCallback( assets, { copyDir: false } );
 
 	// Copy src files to trunk.
+	log.info( 'Copy files to trunk.' );
 	params.buildFiles.forEach( copyToTrunk );
 
 	mkdirp( assets );
 
 	// Copy assets to svn assets.
+	log.info( 'Copy files to assets.' );
 	params.assets.forEach( copyToAssets );
 }
 
@@ -229,6 +243,8 @@ function svnCommitTrunk( params ) {
 
 	svn.missingItems( trunk ).forEach( svn.del );
 	svn.untrackedItems( trunk ).forEach( svn.add );
+
+	log.info( 'Commit changes in trunk.' );
 	svn.commit( trunk, params.username, `Updates trunk for ${ params.version }` );
 }
 
@@ -238,21 +254,28 @@ function svnCommitAssets( params ) {
 	svn.missingItems( assets ).forEach( svn.del );
 	svn.untrackedItems( assets ).forEach( svn.add );
 	svn.update( assets, '--accept', 'mine-full' );
+
+	log.info( 'Commit changes in assets.' );
 	svn.commit( assets, params.username, `Updates assets for ${ params.version }` );
 }
 
 function svnCreateTag( params ) {
 	const from = resolve( params.buildPath, 'trunk' );
 	const to = resolve( params.buildPath, 'tags', params.version );
+	const trunkInTag = resolve( to, 'trunk' );
 
+	log.info( `Create tag ${ params.version }.` );
 	svn.update( to );
 	svn.copy( from, to );
 
 	// Copying the same src to dst in the second time will makes the whole trunk
 	// directory appears in tag. Third time will cause E150002 -- directory
 	// already exists.
-	svn.del( resolve( to, 'trunk' ) );
+	if ( fs.existsSync( trunkInTag ) ) {
+		svn.del( resolve( to, 'trunk' ) );
+	}
 
+	log.info( 'Commit the tag.' );
 	svn.commit( to, params.username, `Creates tag ${ params.version }` );
 }
 
