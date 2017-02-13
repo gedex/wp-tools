@@ -29,21 +29,21 @@ $ wpt
 
   Commands:
 
-    generate:pot [options]         Generate POT.
-    generate:readme-md [options]   Generate README.md from readme.txt.
-    info [options]                 View plugin/theme project info.
-    init [options]                 Initialize .wpt.yaml.
-    release:gh [options]           Release the project to GitHub.
-    release:wporg [options]        Release the project to WP.org.
-    preview:gh                     Preview GitHub README.md.
-    validate:i18n [options]        Check your code for incorrect text-domain.
-    validate:readme-txt            Check your readme.txt.
+    bump:wp-version [options] <from> <to>  Bump WP version in readme.txt
+    generate:pot [options]                 Generate POT.
+    generate:readme-md [options]           Generate README.md from readme.txt.
+    info [options]                         View plugin/theme project info.
+    init [options]                         Initialize .wpt.yaml.
+    release:gh [options]                   Release the project to GitHub.
+    release:wporg [options]                Release the project to WP.org.
+    preview:gh                             Preview GitHub README.md.
+    validate:i18n [options]                Check your code for incorrect text-domain.
+    validate:readme-txt                    Check your readme.txt.
 
   Options:
 
     -h, --help     output usage information
     -V, --version  output the version number
-
 ```
 
 For more help on specific command, supply `-h` or `--help`, for example:
