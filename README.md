@@ -115,10 +115,10 @@ wporg:
    ```
    owner/repo
    ```
+   For example https://github.com/Automattic/jetpack would be `Automattic/jetpack`.
 
 * `gh.branch` is git branch for stable release. If not specified it defaults to
   `master`. This branch is checkout'ed when releasing to GitHub and wp.org.
-   For example https://github.com/Automattic/jetpack would be `Automattic/jetpack`.
 * `wporg.slug` is the plugin slug in wp.org directory.
 * `wporg.username` is your wp.org username that has commit access to the plugin
   svn. Required by command `wpt release:wporg`.
