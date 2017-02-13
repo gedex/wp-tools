@@ -93,6 +93,7 @@ files:
 gh:
     username: gedex
     repo: gedex/wp-slack
+    branch: master
 wporg:
     slug: slack
     username: akeda
@@ -115,6 +116,8 @@ wporg:
    owner/repo
    ```
 
+* `gh.branch` is git branch for stable release. If not specified it defaults to
+  `master`. This branch is checkout'ed when releasing to GitHub and wp.org.
    For example https://github.com/Automattic/jetpack would be `Automattic/jetpack`.
 * `wporg.slug` is the plugin slug in wp.org directory.
 * `wporg.username` is your wp.org username that has commit access to the plugin
