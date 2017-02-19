@@ -4,6 +4,7 @@
 import bumpWpVersion from './commands/bump-wp-version';
 import generatePot from './commands/generate-pot';
 import generateReadmeMd from './commands/generate-readme-md';
+import generateReleaseZip from './commands/generate-release-zip';
 import info from './commands/info';
 import init from './commands/init';
 import releaseGh from './commands/release-gh';
@@ -64,6 +65,15 @@ export default {
 		],
 		action: ( args ) => {
 			generateReadmeMd( args );
+		}
+	},
+	'generate:release-zip': {
+		description: 'Generates project zip like in wp.org without releasing.',
+		options: [
+			[ '-o, --output <output>', 'Filepath output.' ]
+		],
+		action: ( args, config ) => {
+			generateReleaseZip( args, config );
 		}
 	},
 	info: {
