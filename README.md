@@ -32,6 +32,7 @@ $ wpt
     bump:wp-version [options] <from> <to>  Bump WP version in readme.txt
     generate:pot [options]                 Generate POT.
     generate:readme-md [options]           Generate README.md from readme.txt.
+    generate:release-zip [options]         Generates project zip like in wp.org without releasing.
     info [options]                         View plugin/theme project info.
     init [options]                         Initialize .wpt.yaml.
     release:gh [options]                   Release the project to GitHub.
