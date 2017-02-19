@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/gedex/wp-tools#readme",
   "dependencies": {
+    "archiver": "^1.3.0",
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
     "commander": "2.9.0",
