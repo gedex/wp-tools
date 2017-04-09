@@ -35,7 +35,7 @@ function status( path ) {
 }
 
 function commit( path, username, message ) {
-	const args = [ 'commit', path, '--username', username, '-m', message ];
+	const args = [ 'commit', path, '--force-interactive', '--username', username, '-m', message ];
 	exec.svn( ...args );
 }
 
