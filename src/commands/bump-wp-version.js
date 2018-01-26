@@ -14,6 +14,7 @@ import git from '../utils/git';
 import log from '../utils/logger';
 import readme from '../utils/readme';
 import svn from '../utils/svn';
+import exec from '../utils/exec';
 
 export default function( from, to, args, config ) {
 	let params;
@@ -136,6 +137,7 @@ function updateReadme( params ) {
 		log.warning( 'Nothing updated in readme.txt.' );
 	} else {
 		readme.updateContent( content );
+		exec.php( resolve( __dirname, '../../bin/php/readme/generate-readme-md.php' ) )
 		log.success( 'Updated readme.txt.' );
 	}
 }
