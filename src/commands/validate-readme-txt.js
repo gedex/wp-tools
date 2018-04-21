@@ -22,7 +22,7 @@ export default () => {
 
 function validate( readme, cb ) {
 	const options = {
-		url: 'https://wordpress.org/plugins/about/validator/',
+		url: 'https://wordpress.org/plugins/developers/readme-validator/',
 		form: {
 			readme_contents: readme, // eslint-disable-line camelcase
 			text: '1',
